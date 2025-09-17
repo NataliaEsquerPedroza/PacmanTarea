@@ -68,13 +68,11 @@ def square(x, y):
     path.end_fill()
 
 def offset(point):
-    """Regresa el índice del arreglo tiles para una coordenada vectorial."""
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     return int(x + y * 20)
 
 def valid(point):
-    """True si la posición es válida (no pared) y alineada a la grilla."""
     index = offset(point)
     if tiles[index] == 0:
         return False
@@ -84,14 +82,12 @@ def valid(point):
     return point.x % 20 == 0 or point.y % 20 == 0
 
 def at_intersection(p):
-    """True si el punto está justo en una intersección de la grilla."""
     return p.x % 20 == 0 and p.y % 20 == 0
 
 def dist(a, b):
     return sqrt((a.x - b.x)**2 + (a.y - b.y)**2)
 
 def world():
-    """Dibuja el laberinto y los puntos."""
     bgcolor('black')
     path.color('blue')
     for index, tile in enumerate(tiles):
@@ -106,7 +102,6 @@ def world():
 
 # ----------------------------- Fantasmas -----------------------------
 def pick_course(point, course):
-    """Elige una nueva dirección para el fantasma en una intersección."""
     step = GHOST_STEP
     options = [vector(step,0), vector(-step,0), vector(0,step), vector(0,-step)]
     options = [v for v in options if valid(point + v)]
@@ -128,7 +123,6 @@ def pick_course(point, course):
 
 def build_ghosts(n):
     """Crea 'n' fantasmas distribuidos en el mapa en posiciones válidas."""
-    # Posibles spawn points (alineados a 20 px y normalmente libres)
     candidates = [
         vector(-180, 160), vector(-180, -160), vector(100, 160), vector(100, -160),
         vector(-20, 160), vector(140, -20), vector(-20, -20), vector(140, 160),
@@ -152,7 +146,6 @@ def build_ghosts(n):
 
 ghosts = build_ghosts(GHOSTS_N)
 
-# ----------------------------- Lógica de juego -----------------------------
 def move():
     """Mueve a Pac-Man y a todos los fantasmas."""
     writer.undo()
